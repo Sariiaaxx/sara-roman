@@ -19,6 +19,7 @@ public class Main {
         amounts.add(30.0);
         System.out.println("Total: " + calculator.calculateTotal(amounts));
 
+
     }
 }
 
