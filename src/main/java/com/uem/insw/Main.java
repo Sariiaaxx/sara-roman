@@ -1,25 +1,39 @@
 package com.uem.insw;
 
-import java.util.ArrayList;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.InputStream;
 import java.util.List;
 
 public class Main {
+    // Declaración del logger de Logback
+    private static final Logger log = LoggerFactory.getLogger(Main.class);
+
     public static void main(String[] args) {
-        System.out.println("Hello world!");
-        Calculator calculator = new Calculator();
-        calculator.multiply(2, 3); 
-        System.out.println("Result: " + calculator.multiply(2, 3));
-        System.out.println(calculator.concat("Hola", "Que tal?"));
-        System.out.println(calculator.sum(2.5, 3.5));
-        System.out.println(calculator.discount(100.0, 20.0));
+        ObjectMapper mapper = new ObjectMapper();
 
-       List<Double> amounts = new ArrayList<>();
-        amounts.add(10.0);
-        amounts.add(20.0);
-        amounts.add(30.0);
-        System.out.println("Total: " + calculator.calculateTotal(amounts));
+        // Incluir orders.json en la carpeta resources del proyecto y leerlo
+        try (InputStream is = Main.class.getClassLoader().getResourceAsStream("orders.json")) {
+            if (is == null) {
+                System.out.println("No se pudo encontrar el fichero orders.json en resources.");
+                return;
+            }
 
+            // Guardar el resultado en una lista de pedidos
+            List<Order> orders = mapper.readValue(is, new TypeReference<List<Order>>() {
+            });
 
+            // Para cada pedido, hacer un log.debug
+            for (Order order : orders) {
+                log.debug("Loaded order: {}", order.getId());
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error al procesar el archivo JSON: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
-

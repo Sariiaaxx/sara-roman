@@ -7,15 +7,15 @@ public class Searcher {
 
     // checks if the phrase exists in the list
 
-    //Para solucionar el error de que no se encuentre la frase 
-    //sin que se trate de la primer, se debe de eliminar el "Else"
-    //esto se debe a que al hacer el else, cumple con el return, 
-    //acabando con el bucle. 
+    // Para solucionar el error de que no se encuentre la frase
+    // sin que se trate de la primer, se debe de eliminar el "Else"
+    // esto se debe a que al hacer el else, cumple con el return,
+    // acabando con el bucle.
     public boolean searchExactPhrase(String phrase, List<String> list) {
         for (String item : list) {
             if (item.equals(phrase)) {
                 return true;
-            } 
+            }
         }
         return false;
     }
